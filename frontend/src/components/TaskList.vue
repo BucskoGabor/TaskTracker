@@ -300,19 +300,12 @@ export default {
         },
 
         async deleteSubTask(subTaskId) {
-            console.log('deleteSubTask called with ID:', subTaskId)
             if (confirm('Biztosan törli ezt a subtaskot?')) {
-                console.log('User confirmed deletion')
                 try {
-                    console.log('Calling API to delete subtask:', subTaskId)
                     const response = await subTaskApi.deleteSubTask(subTaskId)
-                    console.log('Delete response:', response)
-                    console.log('Reloading tasks...')
                     await this.loadTasks()
-                    console.log('Tasks reloaded')
                 } catch (error) {
                     console.error('Hiba a subtask törlése közben:', error)
-                    console.error('Error details:', error.response || error.message || error)
                     alert(`Hiba a subtask törlése közben: ${error.response?.data?.message || error.message || error}`)
                 }
             } else {
@@ -333,7 +326,6 @@ export default {
         toggleSubtasks(taskId) {
             const taskIndex = this.tasks.findIndex(t => t.id === taskId)
             if (taskIndex !== -1) {
-                // Create new array to trigger reactivity
                 const updatedTasks = [...this.tasks]
                 updatedTasks[taskIndex] = {
                     ...updatedTasks[taskIndex],
